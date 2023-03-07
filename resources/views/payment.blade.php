@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    {{-- {{ dd($expire) }} --}}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -15,7 +16,8 @@
                         <p>Check In : {{ $data->check_in }}</p>
                         <p>Check Out : {{ $data->check_out }}</p>
                         <h4>Harga : {{ $data->harga }}</h4>
-                        <div id="countdown"></div>
+                        <p id="datetime">{{ $expire }}</p>
+                        <p id="timer"></p>
 
                     </div>
 
@@ -67,5 +69,25 @@
                 }
             });
         };
+
+
+        function countdown() {
+            var datetime = document.getElementById('datetime').innerHTML;
+            var created_at = new Date(datetime);
+            var now = new Date();
+            var diff = Math.abs(now - created_at) / 1000;
+            var hours = Math.floor(diff / 3600) % 24;
+            var minutes = Math.floor(diff / 60) % 60;
+            var seconds = Math.floor(diff % 60);
+            var timer = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('timer').innerHTML = timer;
+            setTimeout(countdown, 1000);
+            if (timer == '0:0:0') {
+                location.reload();
+            }
+        }
+        window.onload = function() {
+            countdown();
+        }
     </script>
 @endsection

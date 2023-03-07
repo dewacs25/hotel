@@ -29,7 +29,6 @@ class expireMiddleware
                     $notif = session('notif') - 1;
                     session()->put('notif',$notif);
                 }
-                return redirect('/')->with(session()->flash('dataExpire','Data Pesanan Booking Telah Expire'));
             }
         }
         return $next($request);

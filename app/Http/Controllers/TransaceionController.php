@@ -30,7 +30,7 @@ class TransaceionController extends Controller
         $this->name = Auth::guard('web')->user()->name;
 
         $now = time();
-        $plus_ten_minutes = strtotime('+1 minutes', $now); 
+        $plus_ten_minutes = strtotime('+2 minutes', $now); 
         $expire = date('y-m-d H:i:s', $plus_ten_minutes); 
 
         Transaction::create([

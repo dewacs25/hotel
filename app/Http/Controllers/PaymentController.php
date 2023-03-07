@@ -13,7 +13,7 @@ class PaymentController extends Controller
         $this->middleware('auth');
         $this->middleware('expire');
         
-
+        
     }
 
     public function index($token)
@@ -23,6 +23,10 @@ class PaymentController extends Controller
             return redirect('/')->with(session()->flash('dataExpire','Data Pesanan Booking Telah Expire'));
         }
 
+        $expiredData = Transaction::where('expire', '<=', Carbon::now())->where('id_transaction',$data->id_transaction)->where('status','pending')->get();
+        if (!count($expiredData) < 1) {
+            return redirect('/')->with(session()->flash('dataExpire','Data Pesanan Booking Telah Expire'));
+        }
         $customerDetails = [
             'name' => $data->name,
             'email' => $data->email,
