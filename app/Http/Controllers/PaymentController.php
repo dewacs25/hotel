@@ -4,17 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class PaymentController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('expire');
+        
+
     }
 
     public function index($token)
     {
         $data = Transaction::where('token', $token)->get()->first();
+        if ($data == null) {
+            return redirect('/')->with(session()->flash('dataExpire','Data Pesanan Booking Telah Expire'));
+        }
 
         $customerDetails = [
             'name' => $data->name,
@@ -39,9 +46,13 @@ class PaymentController extends Controller
         \Midtrans\Config::$is3ds = config('services.midtrans.is3ds');
 
         $snapToken = \Midtrans\Snap::getSnapToken($payload);
+
+        
+        // dd($diffInSeconds);
         return view('payment', [
             'data' => $data,
-            'snapToken'=>$snapToken
+            'snapToken'=>$snapToken,
+            'expire'=>$data->expire,
         ]);
     }
 

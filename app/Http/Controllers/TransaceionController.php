@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TransaceionController extends Controller
@@ -14,6 +15,7 @@ class TransaceionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+       
     }
 
     public function Simpan(Request $req)
@@ -27,6 +29,10 @@ class TransaceionController extends Controller
         $this->email = Auth::guard('web')->user()->email;
         $this->name = Auth::guard('web')->user()->name;
 
+        $now = time();
+        $plus_ten_minutes = strtotime('+1 minutes', $now); 
+        $expire = date('y-m-d H:i:s', $plus_ten_minutes); 
+
         Transaction::create([
             'id_product' => $req->id_product,
             'token' => $req->token,
@@ -34,7 +40,8 @@ class TransaceionController extends Controller
             'check_out'=>$req->checkout,
             'email'=>$this->email,
             'name'=>$this->name,
-            'harga'=>$req->price
+            'harga'=>$req->price,
+            'expire'=>$expire
         ]);
 
         $jumlahNotif = session('notif') + 1;

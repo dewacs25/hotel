@@ -19,7 +19,8 @@ class Transaction extends Model
         'email',
         'name',
         'harga',
-        'status'
+        'status',
+        'expire'
     ];
 
     public function product()

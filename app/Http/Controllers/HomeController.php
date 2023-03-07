@@ -19,6 +19,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('expire');
     }
 
     /**
@@ -26,15 +27,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+
+
     public function index()
     {
-
-        // $now = time();
-        // $plus_ten_minutes = strtotime('+1 minutes', $now); 
-        // $e = date('y-m-d H:i:s', $plus_ten_minutes); 
-        // dd($e); 
-
-
         $products = Product::paginate(6);
 
         // session()->forget('notif');
@@ -50,5 +47,19 @@ class HomeController extends Controller
         return view('transaksi', [
             'transactions' => $transactions
         ]);
+    }
+
+    public function ex(Request $req)
+    {
+        $expiredData = Transaction::where('expire', '<=', Carbon::now())->where('id_transaction',$req->id_transaction)->where('status','pending')->get();
+        if (count($expiredData) < 1) {
+            return response()->json([
+                'statusExpire' => 200,
+            ]);
+        }else{
+            return response()->json([
+                'statusExpire' => 201,
+            ]);
+        }
     }
 }

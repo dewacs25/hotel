@@ -30,6 +30,7 @@ Route::post('/booking',[TransaceionController::class,'Simpan']);
 Route::get('/transaksi',[HomeController::class,'transaksi'])->middleware('verified');
 Route::get('/transaksi/{token}',[PaymentController::class,'index'])->middleware('verified');
 Route::delete('/transaksi/{token}',[PaymentController::class,'cancel'])->middleware('verified');
+Route::post('/ex',[HomeController::class,'ex']);
 
 
 Route::get('/admin',[DashboardController::class,'index'])->middleware('admin.auth');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Transaction;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Carbon;
 
 class Authenticate extends Middleware
 {

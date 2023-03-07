@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('name',50);
             $table->double('harga');
             $table->enum('status',['pending','success','errors'])->default('pending');
+            $table->dateTime('expire');
             $table->timestamps();
         });
     }
