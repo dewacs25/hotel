@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Product;
 use App\Models\Transaction;
 use Closure;
 use Illuminate\Http\Request;
@@ -22,6 +23,9 @@ class expireMiddleware
         $expiredData = Transaction::where('expire', '<=', Carbon::now())->where('status','pending')->get();
         if ($expiredData) {
             foreach ($expiredData as $data) {
+                Product::where('id_product',$data->id_product)->update([
+                    'status'=>'unbooking'
+                ]);
                 $data->delete();
                 if (session('notif') == 1) {
                     session()->forget('notif');

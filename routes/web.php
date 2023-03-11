@@ -6,6 +6,7 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ScanController;
 use App\Http\Controllers\TransaceionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::get('/transaksi',[HomeController::class,'transaksi'])->middleware('verifi
 Route::get('/transaksi/{token}',[PaymentController::class,'index'])->middleware('verified');
 Route::delete('/transaksi/{token}',[PaymentController::class,'cancel'])->middleware('verified');
 Route::post('/ex',[HomeController::class,'ex']);
+Route::post('/paymen-success',[PaymentController::class,'PaymentSuccess']);
 
 
 Route::get('/admin',[DashboardController::class,'index'])->middleware('admin.auth');
@@ -43,4 +45,11 @@ Route::get('/admin/product/tambah', function () {
     return view('admin/tambah/tambahProduct');
 });
 Route::post('/admin/product/tambah',[ProductController::class,'Tambah'])->name('tambah.product');
+Route::get('admin/scan',[ScanController::class,'index'])->middleware('admin.auth');
+Route::post('/validasi',[ScanController::class,'validasi'])->name('validasi');
+Route::post('/validasi2',[ScanController::class,'validasiCheckOut'])->name('validasi2');
+
+Route::get('/admin/scan/checkin',[ScanController::class,'CheckIn']);
+Route::get('/admin/scan/checkout',[ScanController::class,'CheckOut']);
+
 

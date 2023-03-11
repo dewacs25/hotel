@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -42,6 +43,10 @@ class TransaceionController extends Controller
             'name'=>$this->name,
             'harga'=>$req->price,
             'expire'=>$expire
+        ]);
+
+        Product::where('id_product',$req->id_product)->update([
+            'status'=>'booking'
         ]);
 
         $jumlahNotif = session('notif') + 1;

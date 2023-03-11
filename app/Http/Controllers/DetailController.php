@@ -24,7 +24,11 @@ class DetailController extends Controller
 
     public function index($id,$nama)
     {
+       
         $cek = Product::find($id);
+        if ($cek->status == 'booking') {
+            return redirect('/');
+        }
         return view('detailPesanan',[
             'product'=>$cek,
         ]);

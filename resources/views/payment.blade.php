@@ -56,8 +56,7 @@
             snap.pay('{{ $snapToken }}', {
                 // Optional
                 onSuccess: function(result) {
-
-                    window.alert('Silahkan Cek Email Anda Untuk Melihat Lebih Detail Bukti Pembayaran')
+                    SuccessPay(result.order_id);
                 },
                 // Optional
                 onPending: function(result) {
@@ -88,6 +87,26 @@
         }
         window.onload = function() {
             countdown();
+        }
+
+        function SuccessPay(token) {
+            var formData = new FormData();
+            formData.append('_methode', 'POST');
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('t', token);
+            $.ajax({
+                type: "POST",
+                url: "/paymen-success",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    document.location = '/';
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
         }
     </script>
 @endsection

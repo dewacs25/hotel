@@ -36,14 +36,15 @@
                                             <td>{{ $row->check_out }}</td>
                                             <td>Rp.{{ number_format($row->harga, 2, ',', '.') }}</td>
                                             <td><span
-                                                    class="@if ($row->status == 'pending') bg-warning text-light rounded-3 pe-2 ps-2 @endif">{{ $row->status }}</span>
+                                                    class="@if ($row->status == 'pending') bg-warning text-light rounded-3 pe-2 ps-2 @elseif ($row->status == 'success') bg-success text-light rounded-3 pe-2 ps-2 @endif">{{ $row->status }}</span>
                                             </td>
                                             @if ($row->status == 'pending')
                                                 <td class="bg-danger">
                                                     <form action="/transaksi/{{ $row->token }}" method="POST">
                                                         @csrf
                                                         @method('delete')
-                                                        <button onclick="return confirm('Yakin Ingin Membatalkan ?');" type="submit" class="btn btn-danger btn-sm p-0">Cancel</button>
+                                                        <button onclick="return confirm('Yakin Ingin Membatalkan ?');"
+                                                            type="submit" class="btn btn-danger btn-sm p-0">Cancel</button>
                                                     </form>
                                                 </td>
 

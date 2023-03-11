@@ -20,9 +20,14 @@
                                             <h5 class="card-title">{{ $product->nama_product }}</h5>
                                             <p class="card-text">{!! $product->deskripsi !!}</p>
                                             <span>Rp.{{ number_format($product->harga, 2, ',', '.') }}</span>
+                                            @if ($product->status == 'booking')
+                                            <p>Booking</p>
+                                            @else
+
                                             <a href="/booking/{{ $product->id_product }}/{{ $product->nama_product }}"
                                                 class="btn btn-outline-primary badge link-dark">Booking
                                                 Now</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -39,7 +44,7 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Data Pesanan Booking Telah Expire',
+                text: 'Data Booking Telah Expire',
             })
         }
     </script>
