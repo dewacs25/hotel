@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ScanController extends Controller
@@ -29,10 +30,13 @@ class ScanController extends Controller
         $cek = Booking::where('token', $qr)->get()->first();
         if ($cek) {
             if ($cek->status == 'pending') {
-                $cek->update([
+
+                // ini bisa ditambahkan lagi logika agar ketika user check in dengan tanggal yang 
+                //terlalu awal maka akan gagal dan ketika user check in melebihi tgl check in maka akan expire 
+                Booking::where('token', $qr)->update([
                     'status' => 'check-in'
                 ]);
-                $cek->save();
+                
                 return response()->json([
                     'status' => 200,
                     'message' => 'Check In Success'
@@ -68,10 +72,14 @@ class ScanController extends Controller
                     'message' => 'User Belum Check In'
                 ]);
             } elseif ($cek->status == 'check-in') {
-                $cek->update([
+                Booking::where('token', $qr)->update([
                     'status' => 'check-out'
                 ]);
-                $cek->save();
+
+                Product::where('id_product',$cek->id_product)->update([
+                    'status'=>'unbooking'
+                ]);
+
                 return response()->json([
                     'status' => 200,
                     'message' => 'Check Out Berhasil'

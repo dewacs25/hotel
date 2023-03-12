@@ -22,4 +22,8 @@ class Product extends Model
     {
         return $this->hasOne('App\Models\Transaction', 'id_product');
     }
+    public function booking()
+    {
+        return $this->belongsTo('App\Models\Booking', 'id_product');
+    }
 }

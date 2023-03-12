@@ -12,6 +12,10 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
+
+    protected $primaryKey = 'id';
+
+
     protected $fillable = [
         'name',
         'email',
@@ -34,4 +38,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function booking()
+    // {
+    //     return $this->belongsTo('App\Models\Booking', 'id');
+    // }
 }

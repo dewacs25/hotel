@@ -35,6 +35,15 @@
                             <p>{!! $product->deskripsi !!}</p>
                             <p>Rp.{{ number_format($product->harga, 2, ',', '.') }}</p>
                         </div>
+                        <div class="card-footer">
+                            <div class="float-end">
+                                <form action="/admin/product/delete/{{ $product->id_product }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             @endforeach

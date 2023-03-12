@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdmiBookingController;
+use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\AdminLogin;
+use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HomeController;
@@ -41,6 +44,7 @@ Route::post('admin/auth/login',[AdminLogin::class,'login_action'])->name('admin.
 Route::get('admin/auth/logout',[AdminLogin::class,'logoutAdmin'])->name('admin.logout');
 
 Route::get('/admin/product',[ProductController::class,'index'])->middleware('admin.auth');
+Route::delete('/admin/product/delete/{id}',[ProductController::class,'delete'])->middleware('admin.auth');
 Route::get('/admin/product/tambah', function () {
     return view('admin/tambah/tambahProduct');
 });
@@ -51,5 +55,8 @@ Route::post('/validasi2',[ScanController::class,'validasiCheckOut'])->name('vali
 
 Route::get('/admin/scan/checkin',[ScanController::class,'CheckIn']);
 Route::get('/admin/scan/checkout',[ScanController::class,'CheckOut']);
+
+Route::get('/admin/transaksi',[AdminTransaksiController::class,'index'])->middleware('admin.auth');
+Route::get('/admin/booking',[AdminBookingController::class,'index'])->middleware('admin.auth');
 
 

@@ -20,4 +20,13 @@ class Booking extends Model
         'qr',
         'status',
     ];
+
+    public function datauser()
+    {
+        return $this->hasOne('App\Models\User', 'id');
+    }
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product', 'id_product');
+    }
 }
