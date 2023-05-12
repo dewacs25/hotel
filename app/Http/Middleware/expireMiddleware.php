@@ -19,7 +19,6 @@ class expireMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
         $expiredData = Transaction::where('expire', '<=', Carbon::now())->where('status','pending')->get();
         if ($expiredData) {
             foreach ($expiredData as $data) {
@@ -30,8 +29,13 @@ class expireMiddleware
                 if (session('notif') == 1) {
                     session()->forget('notif');
                 }else{
-                    $notif = session('notif') - 1;
-                    session()->put('notif',$notif);
+                    if (session('notif') < 1) {
+                        session()->forget('notif');
+                    }else{
+
+                        $notif = session('notif') - 1;
+                        session()->put('notif',$notif);
+                    }
                 }
             }
         }
